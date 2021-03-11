@@ -1,0 +1,362 @@
+<!doctype html>
+<!--[if IE 9]> <html class="ie9 no-js{% if settings.use_rtl %} rtlstyle{% endif %}" lang="{{ shop.locale }}"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html{% if settings.use_boxed %} id="tt-boxed"{% endif %} class="no-js{% if settings.use_rtl %} rtlstyle{% endif %}" lang="{{ shop.locale }}"> <!--<![endif]-->
+<head>
+<meta name="google-site-verification" content="5dY8kAnzcXK7-lfUSqtxk8L-_oIMRFKWwyXp-XaVCeo" />
+<meta name="google-site-verification" content="J-omItjceNIe3PecHrfoYXnkotwoSjGDyIifqV8LhOo" />
+ {%- render 'layouthub_header' -%}
+  <!-- Basic page needs ================================================== -->
+  <meta charset="utf-8">
+  <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><![endif]-->
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="{{ settings.color_base }}">
+  <meta name="keywords" content="{{ "general.meta.keywords" | t }}" />
+  <meta name="author" content="{{ "general.meta.author" | t }}">
+  <link rel="canonical" href="{{ canonical_url }}">
+
+  {%- if settings.favicon != blank and settings.use_favicon -%}
+  	<link rel="shortcut icon" href="{{ settings.favicon | img_url: '32x32' }}" type="image/png">
+  {%- endif -%}
+
+  <!-- Title and description ================================================== -->
+  {%- capture seo_title -%}
+    {{ page_title }}
+    {%- if current_tags -%}
+      {%- assign meta_tags = current_tags | join: ', ' -%} &ndash; {{ 'general.meta.tags' | t: tags: meta_tags -}}
+    {%- endif -%}
+    {%- if current_page != 1 -%}
+      &ndash; {{ 'general.meta.page' | t: page: current_page }}
+    {%- endif -%}
+    {%- unless page_title contains shop.name -%}
+      &ndash; {{ shop.name }}
+    {%- endunless -%}
+  {%- endcapture -%}
+  <title>{{ seo_title }}</title>
+
+  {%- if page_description -%}
+  <meta name="description" content="{{ page_description | escape }}">
+  {%- endif -%}
+
+  {%- if settings.use_countdown_timezone -%}<meta name="timezone" content="{{ settings.countdown_timezone }}">{%- endif -%}
+  
+  <!-- Social meta ================================================== -->
+  {%- include 'social-meta-tags' -%}
+
+  <!-- Helpers ================================================== -->
+
+  <!-- CSS ================================================== -->
+  {%- if settings.font1_is_google_font -%}
+  <link href="https://fonts.googleapis.com/css?family={{ settings.font_name1 }}:100,200,300,400,500,600,700,800,900" rel="stylesheet" defer>
+  {%- endif -%}
+  {%- if settings.font_name1 != settings.font_name2 and settings.font_name2 != '' and settings.font2_is_google_font -%}
+  <link href="https://fonts.googleapis.com/css?family={{ settings.font_name2 }}:100,200,300,400,500,600,700,800,900" rel="stylesheet" defer>
+  {%- endif -%}
+  {%- if settings.popup_newsletter_show and settings.use_as_simple_popup and settings.popup_simple_fonts != "" -%}
+  {{ settings.popup_simple_fonts }}
+  {%- endif -%}
+  {{ settings.google_font_links }}
+  
+  {%- include "include_css" -%}
+  <script src="{{ 'jquery.min.js' | asset_url }}" defer="defer"></script>
+  {%- if template contains 'customers' -%}
+  {{ 'shopify_common.js' | shopify_asset_url | script_tag | remove: ' type="text/javascript"' }}
+  {{ 'customer_area.js'  | shopify_asset_url | script_tag | remove: ' type="text/javascript"' }}
+  {%- endif -%}
+  
+  <!-- Header hook for plugins ================================================== -->
+  {{ content_for_header }}
+  <!-- /Header hook for plugins ================================================== -->
+
+  {%- unless settings.show_emptyreview -%}
+  <style>
+    [data-rating="0.0"]{
+      display:none !important;
+    }
+  </style>
+  {%- endunless -%}
+{% include 'booster-common' %}
+
+<script src='https://code.jquery.com/jquery-1.12.4.min.js'></script>
+
+<!-- Start Areviews Collection Rating Code -->
+       {% if template  contains "product"  or template == 'index' %}
+    <script>
+      
+ 
+var refreshId = setInterval(function() {
+   if ( document.getElementsByClassName('slick-slide').length > 0) {
+ setTimeout(function(){
+ 
+      var oldarray=[];
+jQueryCode = function(){
+    console.log('areviews rating loaded');
+ 
+   jQuery(document).ready(function(){if (jQuery('.areviews_product_item').length > 0){ var r=jQuery(".areviews_product_item").map(function(){return jQuery(this).data("product-id")}).get();oldarray=r,jQuery.ajax({url:"/apps/aliexpress_reviews",data:{ids:r,collection_reviews:"collection_reviews"},type:"POST",success:function(r){var t=r.desing.star_color;jQuery("body").append("<style>.areviews_product_item .fa,.areviews_product_item .fa-star-half-o:before,.areviews_product_item .fa-star-o:before,.areviews_product_item .fa-star:before  {font-family: FontAwesome!important;font-size: "+r.desing.icon_size+"px;}.areviews_product_item .fal:before,.areviews_product_item .fab:before,.areviews_product_item .far:before,.areviews_product_item .fas:before{font-weight: unset!important;}.areviews_product_item .fal:before,.areviews_product_item .fab:before, .areviews_product_item .far:before,.areviews_product_item .fas:before,.areviews_product_item .far,.areviews_product_item .fas {font-family: 'Font Awesome 5 Free'!important;font-size: "+r.desing.icon_size+"px;}.areviews_product_item .no_icon {color: #9e9e9e !important;}.areviews_product_item .half_icon { -webkit-text-fill-color: transparent; -moz-text-fill-color: transparent; -o-text-fill-color: transparent; -ms-text-fill-color: transparent; text-fill-color: transparent; background: -webkit-linear-gradient(to right,"+t+" 50%, #9e9e9e 50%); background: -o-linear-gradient(to right,"+t+" 50%, #9e9e9e 50%); background: -moz-linear-gradient(to right, "+t+" 50%, #9e9e9e 50%); background: -ms-linear-gradient(to right,"+t+" 50%, #9e9e9e 50%); background: linear-gradient(to right,"+t+" 50%, #9e9e9e 50%); color: transparent; -webkit-background-clip: text; background-clip: text }</style>"),jQuery.each(r,function(t,e){var a,i="",o="";1==r.desing.s_status?a=e.comments_count>1?r.desing.plural_reviews:r.desing.reviews_name:(a=r.desing.reviews_name,i="(",o=")"),jQuery(".areviews_stars"+e.product_id).append('<div class="areviews_rating" style="margin-top: 5px;">'+get_starts(e.average,r.desing)+'<span style="'+r.desing.reviews_style+'"> '+i+e.comments_count+o+" "+a+"</span></div>")})}})}});
+ };function get_starts(r,t){var e=0,a="";if("stars"==t.rating_style){for(var i=0;i<~~r;i++)a+='<i style="margin-left: 2px; color:'+t.star_color+';" class="fas fa-star" aria-hidden="true"></i>';if(r-5<0)for(var o=0;o<5-r;o++)o<5-r&&-1!==(5-r).toString().indexOf(".")&&0===e?r%1!=0&&r.toString().split(".")[1]>=9?a+='<i style="margin-left: 2px;color:'+t.star_color+';" class="fas fa-star" aria-hidden="true"></i>':a+='<i style="margin-left: 2px;color:'+t.star_color+';" class="fas fa-star-half-alt" aria-hidden="true"></i>':a+='<i style="margin-left: 2px;color:'+t.star_color+';" class="far fa-star" aria-hidden="true"></i>',e++}else if("custom"==t.rating_style){for(i=0;i<~~r;i++)a+='<i style="margin-left: 2px; color:'+t.star_color+';" class="'+t.custom_icon+'" aria-hidden="true"></i>';if(r-5<0)for(o=0;o<5-r;o++)o<5-r&&-1!==(5-r).toString().indexOf(".")&&0===e?r%1!=0&&r.toString().split(".")[1]>=9?a+='<i style="margin-left: 2px;color:'+t.star_color+';" class="'+t.custom_icon+'" aria-hidden="true"></i>':a+='<i style="margin-left: 2px;color:'+t.star_color+';" class="half_icon  '+t.custom_icon+'" aria-hidden="true"></i>':a+='<i style="margin-left: 2px;color:'+t.star_color+';" class="no_icon '+t.custom_icon+'" aria-hidden="true"></i>',e++}else{for(i=0;i<~~r;i++)a+='<i style="margin-left: 2px; color:'+t.star_color+';" class="'+t.rating_style+'" aria-hidden="true"></i>';if(r-5<0)for(o=0;o<5-r;o++)o<5-r&&-1!==(5-r).toString().indexOf(".")&&0===e?r%1!=0&&r.toString().split(".")[1]>=9?a+='<i style="margin-left: 2px;color:'+t.star_color+';" class="'+t.rating_style+'" aria-hidden="true"></i>':a+='<i style="margin-left: 2px;color:'+t.star_color+';" class="half_icon '+t.rating_style+'" aria-hidden="true"></i>':a+='<i style="margin-left: 2px;color:'+t.star_color+';" class="no_icon '+t.rating_style+'" aria-hidden="true"></i>',e++}return a}
+function show_infiniti_areviews(){var e=jQuery(".areviews_product_item").map(function(){if(0==jQuery(this).find(".areviews_rating").length)return jQuery(this).data("product-id")}).get();oldarray.push.apply(oldarray,e),jQuery.ajax({url:"/apps/aliexpress_reviews",data:{ids:e,collection_reviews:"collection_reviews"},type:"POST",success:function(e){jQuery.each(e,function(s,i){var a;a=1==e.desing.s_status&&i.comments_count>1?e.desing.plural_reviews:e.desing.reviews_name;var t=jQuery(".areviews_stars"+i.product_id);t.find(".areviews_rating").remove(),t.append('<div class="areviews_rating" style="margin-top: 5px;">'+get_starts(i.average,e.desing)+'<span style="'+e.desing.reviews_style+'"> '+i.comments_count+" "+a+"</span></div>")})}})}
+  var crawlerAgentRegex=/(bot|googlebot|crawler|spider|robot|crawling|googlebot\/|Googlebot-Mobile|Googlebot-Image|Google favicon|Mediapartners-Google|bingbot|slurp|java|wget|curl|Commons-HttpClient|Python-urllib|libwww|httpunit|nutch|phpcrawl|msnbot|jyxobot|FAST-WebCrawler|FAST Enterprise Crawler|biglotron|teoma|convera|seekbot|gigablast|exabot|ngbot|ia_archiver|GingerCrawler|webmon |httrack|webcrawler|grub.org|UsineNouvelleCrawler|antibot|netresearchserver|speedy|fluffy|bibnum.bnf|findlink|msrbot|panscient|yacybot|AISearchBot|IOI|ips-agent|tagoobot|MJ12bot|dotbot|woriobot|yanga|buzzbot|mlbot|yandexbot|purebot|Linguee Bot|Voyager|CyberPatrol|voilabot|baiduspider|citeseerxbot|spbot|twengabot|postrank|turnitinbot|scribdbot|page2rss|sitebot|linkdex|Adidxbot|blekkobot|ezooms|dotbot|Mail.RU_Bot|discobot|heritrix|findthatfile|europarchive.org|NerdByNature.Bot|sistrix crawler|ahrefsbot|Aboundex|domaincrawler|wbsearchbot|summify|ccbot|edisterbot|seznambot|ec2linkfinder|gslfbot|aihitbot|intelium_bot|facebookexternalhit|yeti|RetrevoPageAnalyzer|lb-spider|sogou|lssbot|careerbot|wotbox|wocbot|ichiro|DuckDuckBot|lssrocketcrawler|drupact|webcompanycrawler|acoonbot|openindexspider|gnam gnam spider|web-archive-net.com.bot|backlinkcrawler|coccoc|integromedb|content crawler spider|toplistbot|seokicks-robot|it2media-domain-crawler|ip-web-crawler.com|siteexplorer.info|elisabot|proximic|changedetection|blexbot|arabot|WeSEE:Search|niki-bot|CrystalSemanticsBot|rogerbot|360Spider|psbot|InterfaxScanBot|Lipperhey SEO Service|CC Metadata Scaper|g00g1e.net|GrapeshotCrawler|urlappendbot|brainobot|fr-crawler|binlar|SimpleCrawler|Livelapbot|Twitterbot|cXensebot|smtbot|bnf.fr_bot|A6-Indexer|ADmantX|Facebot|Twitterbot|OrangeBot|memorybot|AdvBot|MegaIndex|SemanticScholarBot|ltx71|nerdybot|xovibot|BUbiNG|Qwantify|archive.org_bot|Applebot|TweetmemeBot|crawler4j|findxbot|SemrushBot|yoozBot|lipperhey|y!j-asr|Domain Re-Animator Bot|AddThis)/i;var re=new RegExp(crawlerAgentRegex,'i');if(!re.test(navigator.userAgent)){if(window.jQuery)jQueryCode();else{var script=document.createElement('script');document.head.appendChild(script);script.type='text/javascript';script.src="//code.jquery.com/jquery-1.12.4.min.js";script.onload=jQueryCode}}
+(function() { var css = document.createElement('link'); css.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css'; css.rel = 'stylesheet'; css.type = 'text/css'; document.getElementsByTagName('head')[0].appendChild(css); })();
+      }, 1500);
+   clearInterval(refreshId);
+
+   }
+  }, 200);
+    </script>
+  {% else %}
+    <!-- Start Areviews Collection Rating Code -->
+    
+<script src='https://areviewsapp.com/js_codes/collection_rating.js' defer></script>
+      {% endif %}
+  
+  <script>
+  var crawlerAgentRegex = /(bot|googlebot|crawler|spider|robot|crawling|googlebot\/|Googlebot-Mobile|Googlebot-Image|Google favicon|Mediapartners-Google|bingbot|slurp|java|wget|curl|Commons-HttpClient|Python-urllib|libwww|httpunit|nutch|phpcrawl|msnbot|jyxobot|FAST-WebCrawler|FAST Enterprise Crawler|biglotron|teoma|convera|seekbot|gigablast|exabot|ngbot|ia_archiver|GingerCrawler|webmon |httrack|webcrawler|grub.org|UsineNouvelleCrawler|antibot|netresearchserver|speedy|fluffy|bibnum.bnf|findlink|msrbot|panscient|yacybot|AISearchBot|IOI|ips-agent|tagoobot|MJ12bot|dotbot|woriobot|yanga|buzzbot|mlbot|yandexbot|purebot|Linguee Bot|Voyager|CyberPatrol|voilabot|baiduspider|citeseerxbot|spbot|twengabot|postrank|turnitinbot|scribdbot|page2rss|sitebot|linkdex|Adidxbot|blekkobot|ezooms|dotbot|Mail.RU_Bot|discobot|heritrix|findthatfile|europarchive.org|NerdByNature.Bot|sistrix crawler|ahrefsbot|Aboundex|domaincrawler|wbsearchbot|summify|ccbot|edisterbot|seznambot|ec2linkfinder|gslfbot|aihitbot|intelium_bot|facebookexternalhit|yeti|RetrevoPageAnalyzer|lb-spider|sogou|lssbot|careerbot|wotbox|wocbot|ichiro|DuckDuckBot|lssrocketcrawler|drupact|webcompanycrawler|acoonbot|openindexspider|gnam gnam spider|web-archive-net.com.bot|backlinkcrawler|coccoc|integromedb|content crawler spider|toplistbot|seokicks-robot|it2media-domain-crawler|ip-web-crawler.com|siteexplorer.info|elisabot|proximic|changedetection|blexbot|arabot|WeSEE:Search|niki-bot|CrystalSemanticsBot|rogerbot|360Spider|psbot|InterfaxScanBot|Lipperhey SEO Service|CC Metadata Scaper|g00g1e.net|GrapeshotCrawler|urlappendbot|brainobot|fr-crawler|binlar|SimpleCrawler|Livelapbot|Twitterbot|cXensebot|smtbot|bnf.fr_bot|A6-Indexer|ADmantX|Facebot|Twitterbot|OrangeBot|memorybot|AdvBot|MegaIndex|SemanticScholarBot|ltx71|nerdybot|xovibot|BUbiNG|Qwantify|archive.org_bot|Applebot|TweetmemeBot|crawler4j|findxbot|SemrushBot|yoozBot|lipperhey|y!j-asr|Domain Re-Animator Bot|AddThis)/i;
+var re = new RegExp(crawlerAgentRegex);
+    $(document).ready(function(){
+    
+ 
+if ($('#az_reviews_slider').length > 0 && !re.test(navigator.userAgent)){  
+    $.ajax({
+        type: 'POST',
+        url: '/apps/aliexpress_reviews/slider',
+        data: {shop:'foodfolks.myshopify.com',product_id: $('#az_reviews').data('product_id')},
+        success: function (data) {
+			
+           $('#az_reviews_slider').html(data);
+          
+          for(var  i = 0;i<4;i++) {
+            $( "<li><a href='https://www.amazon.in/' target='_blank'><img style ='max-width: 40px;max-height: 40px' src='https://cdn.shopify.com/s/files/1/0522/7714/9889/files/Amazon_icon_d09207f1-ab08-4ab9-8a72-f91fa307e829.png?v=1610972702' /></a></li>" ).insertBefore($(".slider_user_name").get(i))
+          } 
+          $('img[alt="Author image"]').hide()
+
+        },
+        error: function (x, e) {
+
+        }
+    });
+}
+
+   });
+
+
+  </script>
+<script>
+  
+  jQuery(document).off('click','.main_starts_box,.areviews_top_rating_button').on('click','.main_starts_box,.areviews_top_rating_button', function (e) {
+            e.preventDefault();
+        e.stopImmediatePropagation();
+
+        console.log('2121212');
+         var timer = 0;
+        var reviews_name = "{{($shop_translation->reviews_number2 ?? 'Review')}}";
+        
+         if($('.areviews_main_header_container .fas').length > 4  && e.currentTarget.className.includes('main_starts_box')){
+        	return 0;
+        }
+
+ 
+        jQuery('html, body').animate({scrollTop: (jQuery('#az_reviews').offset().top)}, 1000); 
+    });
+  
+</script>
+{% include 'globo.formbuilder.scripts' %}
+ {% comment %} {% include 'judgeme_core' %}{% endcomment %}
+<!-- AUTO GENERATED BY CODE CUSTOMIZER -->
+{% include "code-customizer-header" %}
+<!-- END CODE CUSTOMIZER -->
+{{ 'ndnapps-easyfaqs.css' | asset_url | stylesheet_tag }}
+{{ 'ndnapps-custom.css' | asset_url | stylesheet_tag }}
+
+{{ 'stkbl-spinner.js' | asset_url | script_tag }}
+{{ 'stkbl-spinner.css' | asset_url | stylesheet_tag }}
+</head>
+<body class="page{{ template }}" {% if template contains '404' %}id="template404"{% elsif settings.use_scale_product_image %}
+      id="same_product_height"{% if settings.notsamewidth %} data-type="not_same_width"{% endif %}{% endif %}
+      {% if request.design_mode %} data-supportcode="{{ settings.supportcode }}"{% endif %}>
+  {%- if settings.show_helper -%}{%- section "show-helper" -%}{%- endif -%}
+  {%- if settings.show_preloader -%}{%- include "main-loader" -%}{%- endif -%}
+
+  {%- if settings.header_design == "header_type_1" -%}
+  {%- capture var_header -%}{%- section "header-template" -%}{%- endcapture -%}
+  {{ var_header }}
+  {%- else -%}
+  {%- if settings.header_design == "header_type_2" -%}
+  {%- capture var_header -%}{% section 'header-template-2' %}{%- endcapture -%}
+  {%- elsif settings.header_design == "header_type_3" -%}
+  {%- capture var_header -%}{% section 'header-template-3' %}{%- endcapture -%}
+  {%- elsif settings.header_design == "header_type_4" -%}
+  {%- capture var_header -%}{% section 'header-template-4' %}{%- endcapture -%}
+  {%- elsif settings.header_design == "header_type_5" -%}
+  {%- capture var_header -%}{% section 'header-template-5' %}{%- endcapture -%}
+  {%- endif -%}
+  {%- if var_header contains '<div class="CATEGORIE MOBILE"></div>' -%}
+  {%- capture var_categorie_button -%}{% if settings.header_design == "header_type_4" %}{% section 'categorie-button-icons-menu' %}{% else %}{% section 'categorie-button' %}{% endif %}{%- endcapture -%}
+  {{ var_categorie_button | split:"[PARTMOBILE]" | first | append: "</div>" }}
+  {%- assign var_categorie_mobile = var_categorie_button | split:"[PARTMOBILE]" | last | split: "[/PARTMOBILE]" | first -%}
+  {%- assign var_categorie_button = var_categorie_button | split:"[PART]" | last | split: "[/PART]" | first -%}
+  {{ var_header | replace: '<div class="CATEGORIE MOBILE"></div>', var_categorie_mobile | replace: "[CATEGORIE, PLEASE SAVE PAGE]", var_categorie_button }}
+  {%- else -%}
+  {{ var_header }}
+  {%- endif -%}
+  {%- endif -%}
+  
+  {% if settings.show_breadcrumbs %}{%- include "breadcrumb" -%}{% endif %}
+  <div id="tt-pageContent"{% if settings.show_unavailable_variants %} class="show_unavailable_variants"{% endif %}>
+    <!--LayoutHub-Workspace-Start-->{{ content_for_layout }}<!--LayoutHub-Workspace-End-->
+  </div>
+
+  {%- assign blockinuse = '' -%}
+  {%- for i in (1..5) -%}
+  {%- assign footer_position = 'footer_position_' | append: i -%}{%- assign csection = settings[footer_position] -%}
+  {%- if csection != 'none' -%}
+  {%- unless blockinuse contains csection -%}{%- assign blockinuse = blockinuse | append: csection | append: '%%' -%}
+  {%- case csection -%}
+  {%- when "footer-section-subscribe" -%}{%- section "footer-section-subscribe" -%}
+  {%- when "footer-section-blurbs" -%}{%- section "footer-section-blurbs" -%}
+  {%- when "footer-section-text_plus_image_vertical" -%}{%- section "footer-section-text_plus_image_vertical" -%}
+  {%- when "footer-section-iconbanners" -%}{%- section "footer-section-iconbanners" -%}
+  {%- else -%}{%- section "footer-template" -%}
+  {%- endcase -%}
+  {%- endunless -%}{%- endif -%}
+  {%- endfor -%}
+
+  {%- if settings.show_footer_instagram_section -%}
+  {%- section "footer-section-instagram" -%}
+  {%- endif -%}
+  {%- if settings.show_back_to_top_button -%}<a href="#" class="tt-back-to-top">{{ 'general.general.to_top_button' | t }}</a>{% endif %}
+  {%- if settings.product_item_show_quickview -%}
+  {%- if content_for_layout contains 'data-target="#ModalquickView"' or content_for_layout contains "index_sectiontabs" or template contains "product" -%}{%- include "modal-quickview" -%}
+  {%- elsif template == "index" and settings.home_page_layout == 'home-page_layout-2' -%}{%- include "modal-quickview" -%}
+  {%- endif -%}{%- endif -%}
+  {%- if settings.show_addtocart_popup -%}{%- include "modal-addtocart" -%}{%- endif -%}
+  {%- include "preloader-ajax" -%}
+
+  <script>
+    var theme = {},
+		shop_url = '{{ shop.url }}',
+    	money_format = '{{ shop.money_format }}',
+        color_with_border = '{{ settings.shopby_color_filter_border }}' || 'empty',
+        colors_value = '{{ ',' | append: settings.product_colors | strip_newlines | downcase | append: ',' }}',
+    	texture_obj = function(){
+      {%- assign str = '{' -%}
+      {%- for i in (1..100) -%}
+      {%- assign key = 'filter_color' | append:i -%}
+      {%- unless settings[key] == blank -%}
+      {%- assign image = 'filter_color' | append:i | append:'.png' -%}
+      {%- assign image = image | asset_url -%}
+      {%- if str.size > 1 -%}{%- assign str = str | append: ',' -%}{%- endif -%}
+      {%- assign str = str | append:'"' | append: settings[key] | append:'"' | append: ':' | append:'"' | append: image | append:'"' -%}
+      {%- endunless -%}
+      {%- endfor -%}
+      {%- assign str = str | append: '}' -%}
+      return JSON.parse('{{ str }}');
+    }
+    texture_obj = texture_obj();
+
+    var wokiee_app = {
+      url: '{{ shop.metafields.ollistsapp.appurl }}',
+      loader_text: '{{ "wishlist.buttons_text.tooltop_load_text" | t }}',
+      main_info: {
+        customerid: '{{ customer.id }}',
+        iid: '{{ shop.metafields.ollistsapp.iid }}',
+        shop: '{{ shop.permanent_domain }}',
+      	domain: '{{ shop.domain }}',
+      	lic: '{{ settings.license }}',
+      }
+    };
+
+    var set_day = '{{ "general.countdown.day" | t | strip_newlines }}',
+        set_hour = '{{ "general.countdown.hour" | t | strip_newlines }}',
+        set_minute = '{{ "general.countdown.minute" | t | strip_newlines }}',
+        set_second = '{{ "general.countdown.second" | t | strip_newlines }}';
+    
+    var addtocart_text = '{{ "products.general.add_to_cart_html" | t | strip_newlines }}',
+    	unavailable_text = '{{ "products.general.unavailable_html" | t | strip_newlines }}',
+        addedhtml_text = '{{ "products.general.added_html" | t | strip_newlines }}',
+        errorhtml_text = '{{ "products.general.error_html" | t | strip_newlines }}',
+        preorderhtml_text = '{{ "products.general.preorder_html" | t | strip_newlines }}',
+        wait_text = '{{ "products.general.wait_html" | t | strip_newlines }}',
+        b_close = '{{ "general.menu.button_close" | t | strip_newlines }}',
+        b_back = '{{ "general.menu.button_back" | t | strip_newlines }}',
+        seeallresults = '{{ "general.search.see_all_results" | t | strip_newlines }}';
+        
+    var small_image = '{{ 'dummy.png' | asset_url }}';
+    
+    {% if settings.terms_cond_checkbox_show %}
+    window.addEventListener('DOMContentLoaded', function() {      
+      var $buyinoneclick = $('.buyinoneclick');
+      if($buyinoneclick.length){
+        $buyinoneclick.first().bind('DOMNodeInserted', function() {
+          setTimeout(function(){
+            var $shopifypaymentbutton = $('.buyinoneclick').find(".shopify-payment-button__button");
+            if($shopifypaymentbutton.length){
+              $buyinoneclick.hide();
+              setTimeout(function(){
+                $(".shopify-payment-button__button").attr('disabled', true);
+                $buyinoneclick.fadeIn()
+              }, 300);
+            }
+          }, 0);
+        });
+      }
+
+      $('body').on('click', '.term-conditions-checkbox-js input', function(e){
+        var _ = $(this).closest('.term-conditions-checkbox-js').parent().parent(),
+            a = _.find('a[onclick*="window.stkblCheckout()"]'),
+            b = _.find('button[name=checkout]'),
+            b2 = _.find('.buyinoneclick button'),
+            text = '{{ settings.terms_cond_checkbox_texterr }}';
+            if($(this).is(':checked')){
+              a.length && a.removeClass('disabled');
+              b.length && b.removeAttr('disabled');
+              b2.length && b2.removeAttr('disabled');
+            }
+        else{
+          a.length && a.addClass('disabled');
+          b.length && b.attr('disabled', true);
+          b2.length && b2.attr('disabled', true);
+        }
+      });
+    });
+    {% endif %}
+  </script>
+  
+  {%- include "include_js" -%}
+  {%- include "currencies" -%}
+  {%- include 'modal-newsletter' -%}
+  {%- include "modal-subscribe_message" -%}
+  {%- include 'modal-wishlist-alert' -%}
+  {%- section "promo-fixed" -%}
+
+  {%- if settings.all_links_is_external or settings.menu_links_is_external or settings.external_links_is_external -%}
+  <script>
+    window.addEventListener('DOMContentLoaded', function() {
+      {% if settings.all_links_is_external %}
+      jQuery('a').attr('target', '_blank');
+      {% endif %}
+      {% if settings.menu_links_is_external %}
+      jQuery('.tt-desctop-menu a').attr('target', '_blank');
+      jQuery('.panel-menu a').attr('target', '_blank');
+      {% endif %}
+      {% if settings.external_links_is_external %}
+      jQuery('a[href^="http"]').attr('target', '_blank')
+      {% endif %}
+    });
+  </script>
+  {%- endif -%}
+  
+  {% comment %}
+  {%- if settings.show_helper -%}
+    <script>
+      var adminlinks = '{{ settings.helper_info }}';
+    </script>
+    <script src="{{ 'admin-panel.js' | asset_url }}" defer="defer"></script>
+  {%- endif -%}
+  {% endcomment %}
+  
+  {{ settings.some_code_field }}
+  
+{% include 'booster-message' %}
+{%- render 'layouthub_footer' -%} 
+ <script src='{{ 'ndnapps-easyfaqs.js' | asset_url }}' defer='defer'></script>
+{% include 'social-head-common.liquid' %}</body>
+</html>
