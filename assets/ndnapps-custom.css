@@ -1,0 +1,5 @@
+body .modal-backdrop{display:none !important;}
+body #ndnapp-easyfaqs-wrapper:before{height:0 !important;}
+body #ndnapp-easyfaqs-wrapper .close:before{display:none !important;}
+.bootstrap-ndnapps .tabbable-panel .tabbable-line .nav-tabs{max-width: 980px;margin: 0 auto !important;}
+.bootstrap-ndnapps .panel-group{padding-left:0;}
